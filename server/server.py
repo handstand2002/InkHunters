@@ -39,7 +39,7 @@ while True:
 				connection.sendall(data)
 			else:
 				#print >>sys.stderr, 'no more data from', client_address
-				print >>sys.stderr, 'All Data: ', allData
+#				print >>sys.stderr, 'All Data: ', allData
 				allRequests = json.JSONDecoder().decode(allData)
 				for request in allRequests:
 					requestParser.takeAction(request)

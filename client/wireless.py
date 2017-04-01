@@ -62,7 +62,7 @@ class wireless:
 
 	def get_quality(self, cell):
 		quality = self.matching_line(cell,"Quality=").split()[0].split('/')
-		return str(int(round(float(quality[0]) / float(quality[1]) * 100))).rjust(3) + " %"
+		return str(int(round(float(quality[0]) / float(quality[1]) * 100))).rjust(3)
 
 	def get_channel(self, cell):
 		return self.matching_line(cell,"Channel:")
