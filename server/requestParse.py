@@ -20,6 +20,12 @@ class requestParse:
 	
 	def clientCheckin(self, object):
 		loc = self.triangulate.calculate(object["Parameters"]["WifiData"])
+		
+		print "Location Obj:"
+		self.triangulate.printObj(loc)
+		
+		if not loc:
+			return
 
 		query = "SELECT DeviceID FROM DEVICE WHERE MAC=%s"
 		values = (object["Parameters"]["MAC"])
