@@ -63,11 +63,10 @@ class triangulation:
 			thisAP.append(AP["DB"][4])
 			thisAP.append(AP["DB"][5])
 			thisAP.append(AP["DB"][6])
-			AP["Client"]["Quality"] = AP["Client"]["Quality"].replace(" ", "")
 			AP["Client"]["Quality"] = float(AP["Client"]["Quality"])/100
 
-			AP["Client"]["Signal"] = float(AP["Client"]["Signal"].replace(" dBm", ""))
-			AP["Client"]["Signal"] = (AP["Client"]["Signal"] + 100) / 90
+#			AP["Client"]["Signal"] = float(AP["Client"]["Signal"].replace(" dBm", ""))
+			AP["Client"]["Signal"] = (float(AP["Client"]["Signal"]) + 100) / 90
                         #signal scale is from -10 to -100
 
 			signalDist = 1-(AP["Client"]["Signal"] * AP["Client"]["Quality"])
