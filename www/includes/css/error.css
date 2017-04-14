@@ -1,0 +1,14 @@
+#bottomError
+{
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 40px;
+	background-color: white;
+	z-index: 99;
+	border: 1px solid black;
+	text-align: center;
+	font-weight: bold;
+	color: #9b0000;
+	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+}
