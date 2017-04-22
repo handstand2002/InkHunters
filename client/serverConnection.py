@@ -20,7 +20,9 @@ class serverConnection(object):
         def sendRequests(self):
                 jsonText = json.JSONEncoder().encode(self.requestArray)
                 self.requestArray = []
-                self.sendData(jsonText)
+                resp = self.sendData(jsonText)
+		print "Response: "
+		print json.dumps(resp, sort_keys=True, indent=4, separators=(',', ': '))
 
 
         def sendData(self, data):
@@ -34,15 +36,24 @@ class serverConnection(object):
                         print >> sys.stderr, "wasn't able to connect to %s:%s" % self.serverAddress
                         return
 
+		jsonDecoder = json.JSONDecoder()
+		decodedResponse = []
                 try:
                         self.sock.sendall(data)
 
-                        received = 0
-                        expected = len(data)
-
-                        while received < expected:
+#                        received = 0
+#                        expected = len(data)
+			finishedResponse = False
+			fullResponse = ""
+                        while True:
                                 response = self.sock.recv(16)
-                                received += len(response)
+				fullResponse += response
+				try:
+					decodedResponse = json.JSONDecoder().decode(fullResponse)
+					break
+				except ValueError:
+					temp = False
                 finally:
                         print >> sys.stderr, 'closing socket'
                         self.sock.close()
+		return decodedResponse

@@ -21,3 +21,6 @@ class dbConnection:
 
 		self.link.close()
 		return output
+
+	def insert_id(self):
+		return self.link.insert_id()
