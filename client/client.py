@@ -9,34 +9,27 @@ import wireless
 import request
 import json
 import time
-
-#obj = {}
-#obj["foo"] = []
-#obj["foo"].append("bar")
-#obj["foo"].append("baz")
-#t = json.JSONEncoder().encode(obj)
-
-#print(t)
-
-#j = json.JSONDecoder().decode(t)
-
-#print(j["foo"][0])
-
+import requestParse
 
 server = serverConnection.serverConnection()
 
 wl = wireless.wireless()
 
 requestController = request.request()
+requestParser = requestParse.requestParse()
 
 clientID = 1
-#while True:
+while True:
 
-wifiData = wl.scan()
-wifiData = json.JSONEncoder().encode(wifiData)
+	wifiData = wl.scan()
+	wifiData = json.JSONEncoder().encode(wifiData)
 
-req = requestController.getCheckinRequest(wifiData)
-clientID += 1
-server.addRequest(req)
-server.sendRequests()
-time.sleep(1)
+	req = requestController.getCheckinRequest(wifiData)
+	clientID += 1
+	server.addRequest(req)
+	response = server.sendRequests()
+
+	for action in response:
+		if "ClientAction" in action:
+			requestParser.takeAction(action)
+	time.sleep(10)

@@ -21,8 +21,9 @@ class serverConnection(object):
                 jsonText = json.JSONEncoder().encode(self.requestArray)
                 self.requestArray = []
                 resp = self.sendData(jsonText)
-		print "Response: "
-		print json.dumps(resp, sort_keys=True, indent=4, separators=(',', ': '))
+#		print "Response: "
+#		print json.dumps(resp, sort_keys=True, indent=4, separators=(',', ': '))
+		return resp
 
 
         def sendData(self, data):

@@ -39,6 +39,11 @@ $title = "Edit Device Name";
   			<td>Details</td>
   			<td><textarea name="Details" placeholder="Add Additional Details"></textarea></td>
 		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="javascript:;" onclick="pageElements.DeviceListController.startBuzzer()">Start Buzzer</a>
+			</td>
+		</tr>
   	</table>
   	
   </form>

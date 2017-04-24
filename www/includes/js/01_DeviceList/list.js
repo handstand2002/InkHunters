@@ -14,6 +14,13 @@ function DeviceList_List()
 	request.parameters = {};
 	request.callback = "";
 	this.ajaxEditDevice = request;
+	
+	request = {};
+	request.action = "DeviceBuzzerStart";
+	request.parameters = {};
+	request.parameters.DeviceID = 0;
+	request.parameters.Seconds = 10;
+	this.ajaxStartBuzzer = request;
 }
 
 DeviceList_List.prototype.initList = function()
@@ -38,6 +45,16 @@ DeviceList_List.prototype.getPinList = function()
 	}
 	
 	return output;
+}
+
+DeviceList_List.prototype.startBuzzer = function()
+{
+	var form = document.getElementById("Device_EditForm");
+	
+	this.ajaxStartBuzzer.parameters.DeviceID = form.DeviceID.value;
+	
+	addAjaxRequest(this.ajaxStartBuzzer);
+	sendAjax();
 }
 
 DeviceList_List.prototype.openDiag = function(diagName, link)

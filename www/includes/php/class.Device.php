@@ -42,6 +42,13 @@ class Device
 		return $result;
 	}
 	
+	public function startBuzzer($id, $time)
+	{
+		$query = "update DEVICE set BuzzerPending=? where DeviceID=?";
+		$values = array($time, $id);
+		$this->dbLink->queryDB($query, $values);
+	}
+	
 	public function editDevice($id, $title, $details)
 	{
 		$query = "update DEVICE set Title=?, Detail=? where DeviceID=?";

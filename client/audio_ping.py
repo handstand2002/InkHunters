@@ -9,18 +9,20 @@
 
 import RPi.GPIO as GPIO   #import the GPIO library
 import time               #import the time library
+import math
 
 class Buzzer(object):
  def __init__(self):
+  GPIO.setwarnings(False)  
   GPIO.setmode(GPIO.BCM)  
   self.buzzer_pin = 13 #set to GPIO pin 13
   GPIO.setup(self.buzzer_pin, GPIO.IN)
   GPIO.setup(self.buzzer_pin, GPIO.OUT)
-  print("buzzer ready")
+#  print("buzzer ready")
 
  def __del__(self):
   class_name = self.__class__.__name__
-  print (class_name, "finished")
+#  print (class_name, "finished")
 
  def buzz(self,pitch, duration):   #create the function “buzz” and feed it the pitch and duration)
  
@@ -37,56 +39,35 @@ class Buzzer(object):
    GPIO.output(self.buzzer_pin, False)    #set pin 18 to low
    time.sleep(delay)    #wait with pin 18 low
 
- def play(self, tune):
+ def playAlert2(self, seconds):
   GPIO.setmode(GPIO.BCM)
   GPIO.setup(self.buzzer_pin, GPIO.OUT)
   x=0
+  lowFreq = 100
+  highFreq = 900
+  totalTime = 1
+  currentTime = 0
+  timeInterval = .01
+  while currentTime < seconds:
+   freq = math.sin(math.pi*currentTime/totalTime)*(highFreq-lowFreq)+lowFreq
+   self.buzz(freq, timeInterval)
+   currentTime += timeInterval
+  GPIO.setup(self.buzzer_pin, GPIO.IN)  
 
-  print("Playing tune ",tune)
-  if(tune==1):
-    pitches=[262,294,330,349,392,440,494,523, 587, 659,698,784,880,988,1047]
-    duration=0.1
-    for p in pitches:
-      self.buzz(p, duration)  #feed the pitch and duration to the function, “buzz”
-      time.sleep(duration *0.5)
-    for p in reversed(pitches):
-      self.buzz(p, duration)
-      time.sleep(duration *0.5)
-
-  elif(tune==2):
-    pitches=[262,330,392,523,1047]
-    duration=[0.2,0.2,0.2,0.2,0.2,0,5]
-    for p in pitches:
-      self.buzz(p, duration[x])  #feed the pitch and duration to the function, “buzz”
-      time.sleep(duration[x] *0.5)
-      x+=1
-  elif(tune==3):
-    pitches=[392,294,0,392,294,0,392,0,392,392,392,0,1047,262]
-    duration=[0.2,0.2,0.2,0.2,0.2,0.2,0.1,0.1,0.1,0.1,0.1,0.1,0.8,0.4]
-    for p in pitches:
-      self.buzz(p, duration[x])  #feed the pitch and duration to the func$
-      time.sleep(duration[x] *0.5)
-      x+=1
-
-  elif(tune==4):
-    pitches=[1047, 988,659]
-    duration=[0.1,0.1,0.2]
-    for p in pitches:
-      self.buzz(p, duration[x])  #feed the pitch and duration to the func$
-      time.sleep(duration[x] *0.5)
-      x+=1
-
-  elif(tune==5):
-    pitches=[1047, 988,523]
-    duration=[0.1,0.1,0.2]
-    for p in pitches:
-      self.buzz(p, duration[x])  #feed the pitch and duration to the func$
-      time.sleep(duration[x] *0.5)
-      x+=1
-
+ def playAlert(self):
+  GPIO.setmode(GPIO.BCM)
+  GPIO.setup(self.buzzer_pin, GPIO.OUT)
+  x=0
+  duration = .5
+  totalDuration = 0
+  while totalDuration < 60:
+   self.buzz(587, .5)
+   self.buzz(392, .5)
+   totalDuration += 1
   GPIO.setup(self.buzzer_pin, GPIO.IN)
 
-if __name__ == "__main__":
-  a = input("Enter Tune number 1-5:")
-  buzzer = Buzzer()
-  buzzer.play(int(a))
+#if __name__ == "__main__":
+#  a = input("Enter Tune number 1-5:")
+#  buzzer = Buzzer()
+#  buzzer.play(int(a))
+#  buzzer.playAlert()
