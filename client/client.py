@@ -32,4 +32,5 @@ while True:
 	for action in response:
 		if "ClientAction" in action:
 			requestParser.takeAction(action)
-	time.sleep(10)
+	time.sleep(120)	#check in every 2 min
+

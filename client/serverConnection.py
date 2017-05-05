@@ -28,7 +28,7 @@ class serverConnection(object):
 
         def sendData(self, data):
                 self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.serverAddress = ('192.168.0.251', 9801)
+                self.serverAddress = ('127.0.0.1', 9801)
 
                 try:
                         print >> sys.stderr, 'connecting to %s:%s' % self.serverAddress

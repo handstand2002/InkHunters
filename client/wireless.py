@@ -14,8 +14,35 @@ class wireless:
 		self.line2 = re.compile(r"\d{2}/\d{2}")
 		self.line3 = re.compile(r"-\d+")
 		self.qualityCalc = re.compile(r"(\d+)\/(\d+)")
-	
+
 	def scan(self):
+		
+		wifiData = []
+		for i in range(1, 20):
+			scanData = self.singleScan()
+			for newAP in scanData:
+				apExist = False
+				for existAP in wifiData:
+					if newAP["Address"] == existAP["Address"]:
+						# Increment counter, Add to Quality and Signal
+						existAP["NumPing"] += 1
+						existAP["Quality"] += float(newAP["Quality"])
+						existAP["Signal"] += float(newAP["Signal"])
+						apExist = True
+						break
+				if apExist == False:
+					newAP["Quality"] = float(newAP["Quality"])
+					newAP["Signal"] = float(newAP["Signal"])
+					newAP["NumPing"] = 1
+					wifiData.append(newAP)
+		for ap in wifiData:
+			ap["Quality"] = ap["Quality"] / ap["NumPing"]
+			ap["Signal"] = ap["Signal"] / ap["NumPing"]
+			del ap["NumPing"]
+#		print "Number of APs caught: %d" % (len(wifiData))
+		return wifiData
+	
+	def singleScan(self):
 		while True:
 			output = check_output(["iwlist", "wlan0", "scan"])
 			if self.no_results.search(output) is None:

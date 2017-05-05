@@ -48,16 +48,6 @@ class triangulation:
 				APsInDB.append(APDetail)
 		data = []
 
-#"DB": [
-#            35,
- #           89417479060,
-  #          "nothing",
-   #         "Nowhere",
-    #        -48.0,
-     #       -117.0,
-      #      2000
-       # ]
-
 		for AP in APsInDB:
 			thisAP = []
 			thisAP.append(AP["DB"][4])
@@ -65,18 +55,20 @@ class triangulation:
 			thisAP.append(AP["DB"][6])
 			AP["Client"]["Quality"] = float(AP["Client"]["Quality"])/100
 
-#			AP["Client"]["Signal"] = float(AP["Client"]["Signal"].replace(" dBm", ""))
 			AP["Client"]["Signal"] = (float(AP["Client"]["Signal"]) + 100) / 90
                         #signal scale is from -10 to -100
 
 			signalDist = 1-(AP["Client"]["Signal"] * AP["Client"]["Quality"])
 			AP["Client"]["DistanceRatio"] = signalDist
 			
+			thisAP.append(signalDist * 10)	# multiply the signal ratio by 10, so it's a num between 0 and 10
+			self.printObj(thisAP)
 			data.append(thisAP)
 
 		output = self.doCalc(data)
 		print "Number of registered wifi received: %d" % len(data)
-#		self.printObj(APsInDB)
+		
+		self.printObj(data)
 		
 		#dummy output
 #		output = {}
